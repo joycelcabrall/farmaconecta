@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: farmaconecta-postgres
+    environment:
+      POSTGRES_DB: farmaconecta
+      POSTGRES_USER: farmaconecta
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no arquivo .env}
+    ports:
+      - "5433:5432"
+    volumes:
+      - farmaconecta_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U farmaconecta -d farmaconecta"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  farmaconecta_data:
